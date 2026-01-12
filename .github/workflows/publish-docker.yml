@@ -1,14 +1,25 @@
+# Shared workflow to be included in all setsetset apps
+# Usage example:
+#
+# jobs:
+#   publish:
+#   name: Publish
+#   uses: setsetset-777/toolbox/.github/workflows/docker-publish.yml@main
+
 name: Create and publish a Docker image
 
 on:
   workflow_call:
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+    inputs:
+      image_name:
+        required: true
+        type: string
+      registry:
+        required: true
+        type: string
 
 jobs:
-  build-and-push-image:
+  docker-publish:
     runs-on: ubuntu-latest
 
     permissions:
@@ -23,7 +34,7 @@ jobs:
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ inputs.registry }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -31,7 +42,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ inputs.registry }}/${{ inputs.image_name }}
           tags: |
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
@@ -50,6 +61,6 @@ jobs:
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v3
         with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-name: ${{ inputs.registry }}/${{ inputs.image_name }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
