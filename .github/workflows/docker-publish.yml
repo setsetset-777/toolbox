@@ -47,9 +47,9 @@ jobs:
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
             # set beta tag for beta branch
-            type=raw,value=beta,enable=${{ github.ref == format('refs/heads/{0}', 'beta') }}
+            # type=raw,value=beta,enable=${{ github.ref == format('refs/heads/{0}', 'beta') }}
             # Publish tag for every branches
-            # type=ref,event=branch
+            type=ref,event=branch
 
       - name: Build and push Docker image
         id: push
