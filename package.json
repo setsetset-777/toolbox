@@ -9,7 +9,7 @@
     "build": "pnpm -r build",
     "changeset": "changeset",
     "version": "changeset version",
-    "ci:publish": "pnpm publish -r"
+    "ci:publish": "pnpm publish -r --no-git-checks"
   },
   "packageManager": "pnpm@10.23.0"
 }
