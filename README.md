@@ -50,28 +50,6 @@ export default {
 
 ### Versioning with Changesets
 
-Install and initialize Changesets:
-```sh
-pnpm add -D @changesets/cli
-pnpm changeset init
-```
-
-Add a changeset for any package change:
-```sh
-pnpm changeset
-```
-- Select affected package(s)
-- Choose patch, minor, or major
-
-- Provide a short description
-
-Apply version bumps:
-```sh
-pnpm version
-```
-
-### Day-to-Day Workflow
-
 1. Add a changeset:
 ```sh
 pnpm changeset
@@ -79,7 +57,8 @@ pnpm changeset
 
 2. Commit and merge:
 ```sh
-git commit -am "feat(payloader): add timeout"
+git add .
+git commit -m "feat(payloader): add timeout"
 git push
 ```
 
