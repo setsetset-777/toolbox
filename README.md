@@ -80,12 +80,14 @@ git push
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-4. Add GITHUB_TOKEN to the `.env` file with the PAT value
+5. Replace ${GITHUB_TOKEN} with your PAT value
 ```
 GITHUB_TOKEN=ghp_xxx
 ```
+ > ⚠️ Caution: Be sure to add `.npmrc` to your `ignorefile` file. Secrets should never be committed.
 
-5. Install package
+
+6. Install package
 ```sh
 pnpm add @setsetset-777/<package>
 ```
