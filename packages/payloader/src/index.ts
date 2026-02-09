@@ -130,15 +130,13 @@ const fetchGlobal = async (path: string, locale?: LocaleCode): FetchData =>
 /**
  * Fetches a collection from PayloadCMS
  */
-export const fetchCollection = async (
-  path: string,
-  locale?: LocaleCode,
-): FetchData => fetchPayload(path, "global", locale);
+const fetchCollection = async (path: string, locale?: LocaleCode): FetchData =>
+  fetchPayload(path, "global", locale);
 
 /**
  * Fetches a page from PayloadCMS
  */
-export const fetchPage = async (path: string, locale?: LocaleCode) => {
+const fetchPage = async (path: string, locale?: LocaleCode) => {
   return fetchGlobal(path, locale) ?? fetchCollection(path, locale);
 };
 
