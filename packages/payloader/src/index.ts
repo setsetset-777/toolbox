@@ -7,6 +7,8 @@ import type {
   FetchData,
 } from "./types.ts";
 
+export { PayloadConfig, LocaleCode, LocalesData, FetchData };
+
 let cachedToken: string | null = null;
 let tokenExpiresAt = 0;
 
