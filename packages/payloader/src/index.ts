@@ -1,18 +1,14 @@
 import logger from "@setsetset-777/logger";
 
-export type FetchData = Promise<Record<string, any>>;
-type Locale = string;
+import type {
+  PayloadConfig,
+  LocaleCode,
+  LocalesData,
+  FetchData,
+} from "./types.ts";
 
 let cachedToken: string | null = null;
 let tokenExpiresAt = 0;
-
-interface PayloadConfig {
-  enable: boolean;
-  apiUrl: string;
-  serviceUser: string;
-  servicePassord: string;
-  env: "production" | "development";
-}
 
 let config: PayloadConfig = {
   enable: false,
@@ -70,16 +66,16 @@ const getToken = async () => {
 const fetchPayload = async (
   slug: string,
   type?: "global" | "collection" | "auth" | null,
-  locale?: Locale,
+  locale?: LocaleCode,
 ): FetchData => {
   if (!config.enable) {
-    throw "Warn: no payload enabled. Fetch aborted.";
+    throw "No payload enabled. Fetch aborted.";
   }
 
   const token = await getToken();
   let path = "/";
   let params: {
-    locale?: Locale;
+    locale?: LocaleCode;
   } = {};
 
   if (["global", "collection"].includes(type as string)) {
@@ -126,17 +122,29 @@ const fetchPayload = async (
 /**
  * Fetches a global from PayloadCMS
  */
-const fetchGlobal = async (path: string, locale?: string): FetchData =>
+const fetchGlobal = async (path: string, locale?: LocaleCode): FetchData =>
   fetchPayload(path, "global", locale);
 
+/**
+ * Fetches a collection from PayloadCMS
+ */
 export const fetchCollection = async (
   path: string,
-  locale?: string,
+  locale?: LocaleCode,
 ): FetchData => fetchPayload(path, "global", locale);
 
-export const fetchPage = async (path: string, locale?: string) => {
+/**
+ * Fetches a page from PayloadCMS
+ */
+export const fetchPage = async (path: string, locale?: LocaleCode) => {
   return fetchGlobal(path, locale) ?? fetchCollection(path, locale);
 };
+
+/**
+ * Fetches locales supported by PayloadCMS
+ */
+const fetchLocales = async (): Promise<LocalesData> =>
+  fetchPayload("locales") as unknown as LocalesData;
 
 export default {
   init: init,
@@ -144,4 +152,5 @@ export default {
   global: fetchGlobal,
   page: fetchPage,
   collection: fetchCollection,
+  locales: fetchLocales,
 };

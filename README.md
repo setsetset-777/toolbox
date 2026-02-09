@@ -72,20 +72,41 @@ pnpm version
 
 ### Day-to-Day Workflow
 
-1. Create a branch for your feature/fix:
-```sh
-git checkout -b feat/payloader-timeout
-```
-
-2. Add a changeset:
+1. Add a changeset:
 ```sh
 pnpm changeset
 ```
 
-3. Commit and merge:
+2. Commit and merge:
 ```sh
 git commit -am "feat(payloader): add timeout"
 git push
 ```
 
-4. Merge to main → GitHub Action publishes automatically.
+3. Push -> changeset will automatically create a new PR
+
+4. Merge the PR when you are ready to publish
+
+### Install NPM package
+
+1. Add reference to the registry in a `.npmrc` file
+```sh
+@setsetset-777:registry=https://npm.pkg.github.com
+```
+
+2. If you run your app in docker, you need a [PERSONAL ACCESS TOKEN](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) with repo and package:read access to authenticate to the registry.
+
+3. Add the authentication to the `.npmrc` file
+```
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+4. Add GITHUB_TOKEN to the `.env` file with the PAT value
+```
+GITHUB_TOKEN=ghp_xxx
+```
+
+5. Install package
+```sh
+pnpm add @setsetset-777/<package>
+```
