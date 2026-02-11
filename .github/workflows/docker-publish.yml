@@ -17,8 +17,6 @@ on:
       registry:
         required: true
         type: string
-    secrets:
-      NPM_PAT:
 
 jobs:
   docker-publish:
@@ -61,8 +59,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           no-cache: true
-          build-args: |
-            NPM_PAT=${{ secrets.NPM_PAT }}
+          secrets: |
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v3
